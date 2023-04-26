@@ -1,20 +1,29 @@
-import Header from './Header';
+
 import './App.css';
 import NotesList from './NotesList'
+import NotePage from './NotePage';
+
 import {
   BrowserRouter as Router,
   Route,
+  Routes
 
 } from "react-router-dom"
 
+import { ChakraProvider } from '@chakra-ui/react'
+
 function App() {
+
+
   return (
-    <Router>
-      <div>
-        <Header/>
-        <NotesList />
-      </div>
-    </Router>
+    <ChakraProvider>
+      <Router>
+        <Routes>
+            <Route path="/" exact element={<NotesList />} />
+            <Route path="note/:id" element={<NotePage />} />
+        </Routes>
+      </Router>
+      </ChakraProvider>
 
   );
 }

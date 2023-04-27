@@ -3,8 +3,9 @@ import React from 'react'
 import { useParams } from 'react-router-dom';
 import { useState, useEffect} from 'react'
 
-import { Card, CardHeader, CardBody, Heading, Textarea } from '@chakra-ui/react'
-import { Center } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, Heading, Textarea, IconButton } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
+import { ArrowBackIcon } from '@chakra-ui/icons'
 
 export const NotePage = (props ) => {
 
@@ -23,18 +24,26 @@ export const NotePage = (props ) => {
     
 
     return (
-    <Center p="6" color='white' axis='both'>
-      <Card size="lg">
-          <CardHeader>
-            <Heading size='lg'>Note</Heading>
-          </CardHeader>
-
-          <CardBody>
-                  <Textarea defaultValue={note.body} onChange={e => setNote({...note, 'body': e.target.value})} />
-          </CardBody>
-          
-      </Card>
-    </Center>
+      <Flex h="100vh" align="center" justify="center">
+        <Card sx={{ width: '60%', textAlign: 'center', minHeight: '400px' }}>
+            <CardHeader textAlign='center'>
+              <Flex justifyContent="space-between" alignItems="center">
+                <IconButton icon={<ArrowBackIcon />} aria-label="Back" />
+                <Heading size='lg'>Note</Heading>
+                <div style={{ width: '24px' }}></div>
+              </Flex>
+            </CardHeader>
+            <CardBody>
+                    <Textarea 
+                    defaultValue={note.body} 
+                    onChange={e => setNote({...note, 'body': e.target.value})} 
+                    height='auto'
+                    maxHeight="200px"
+                    sx={{ width: '100%', maxWidth: 'none', whiteSpace: 'pre-wrap' }} />
+            </CardBody>
+            
+        </Card>
+    </Flex>
         
     )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import NoteItem from './NoteItem'
 import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, Heading, Stack, StackDivider, IconButton } from '@chakra-ui/react'
-import { Center } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import {  AddIcon } from '@chakra-ui/icons'
 
 export const NotesList = () => {
@@ -17,8 +17,8 @@ export const NotesList = () => {
   }, [notes])
 
   return (
-  <Center p='6' color='white' axis='both'>
-      <Card>
+  <Flex h="100vh" align="center" justify="center">
+      <Card sx={{ width: '50%', textAlign: 'center' }}>
           <CardHeader>
             <IconButton icon={<AddIcon/>} position="absolute" right="13"/>
             <Heading size='lg'>Note List</Heading>
@@ -34,7 +34,7 @@ export const NotesList = () => {
               </Stack>
           </CardBody> 
       </Card>
-    </Center>
+    </Flex>
   )
 }
 

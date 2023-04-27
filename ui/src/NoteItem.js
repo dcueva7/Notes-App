@@ -9,7 +9,7 @@ export const NoteItem = ( {note} ) => {
     <Center p='6' color='white' axis='both'>
 
       <Link to={`/note/${note.id}`}>
-        <Card>
+        <Card sx={{ width: '100%', textAlign: 'center' }}>
           <Container>
             <Box padding='4'>
               <Text color={'black'}>{note.body}</Text>

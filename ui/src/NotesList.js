@@ -20,7 +20,7 @@ export const NotesList = () => {
   <Center p='6' color='white' axis='both'>
       <Card>
           <CardHeader>
-            <IconButton icon={<AddIcon/>} position="absolute" right="13" onClick={handleClick}/>
+            <IconButton icon={<AddIcon/>} position="absolute" right="13"/>
             <Heading size='lg'>Note List</Heading>
           </CardHeader>
 

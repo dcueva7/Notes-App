@@ -3,7 +3,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom';
 import { useState, useEffect} from 'react'
 
-import { Card, CardHeader, CardBody, Heading, Text } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, Heading, Textarea } from '@chakra-ui/react'
 import { Center } from '@chakra-ui/react'
 
 export const NotePage = (props ) => {
@@ -23,14 +23,14 @@ export const NotePage = (props ) => {
     
 
     return (
-    <Center p='6' color='white' axis='both'>
-      <Card>
+    <Center p="6" color='white' axis='both'>
+      <Card size="lg">
           <CardHeader>
             <Heading size='lg'>Note</Heading>
           </CardHeader>
 
           <CardBody>
-                  <Text>{note.body}</Text>
+                  <Textarea defaultValue={note.body} onChange={e => setNote({...note, 'body': e.target.value})} />
           </CardBody>
           
       </Card>

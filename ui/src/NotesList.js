@@ -1,7 +1,8 @@
 import React from 'react'
 import NoteItem from './NoteItem'
 import { useState, useEffect } from 'react'
-import { Card, CardHeader, CardBody, Box, Heading, Stack, StackDivider, Text } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, Heading, Stack, StackDivider } from '@chakra-ui/react'
+import { Center } from '@chakra-ui/react'
 
 export const NotesList = () => {
 
@@ -16,24 +17,24 @@ export const NotesList = () => {
 
   return (
 
-    <Card>
-        <CardHeader>
-          <Heading size='md'>Note List</Heading>
-        </CardHeader>
+    
+  <Center p='6' color='white' axis='both'>
+      <Card>
+          <CardHeader>
+            <Heading size='lg'>Note List</Heading>
+          </CardHeader>
 
-        <CardBody>
-            <Stack divider={<StackDivider />} spacing='4'>
-              {notes.map((item, index) => {
-                  return (
-                    <Box>
-                      <Text pt='2' fontSize='sm'><NoteItem key={index} note={item} /></Text>
-                    </Box>
+          <CardBody>
+              <Stack divider={<StackDivider />} spacing='4'>
+                {notes.map((item) => {
+                  return(
+                    <NoteItem key={item.id} note={item} />
                   )
-              })}
-            </Stack>
-         </CardBody>
-        
-    </Card>
+                })}
+              </Stack>
+          </CardBody> 
+      </Card>
+    </Center>
   )
 }
 

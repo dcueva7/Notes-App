@@ -1,12 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Center, Text, Container, Card, Box } from '@chakra-ui/react'
+
 
 export const NoteItem = ( {note} ) => {
   return (
-    <Link to={`/note/${note.id}`}>
-      {note.body}
-    </Link>
+
+    <Center p='6' color='white' axis='both'>
+
+      <Link to={`/note/${note.id}`}>
+        <Card>
+          <Container>
+            <Box padding='4'>
+              <Text color={'black'}>{note.body}</Text>
+            </Box>
+          </Container>
+        </Card>
+      </Link>
+    </Center>
   )
 }
 
-export default NoteItem
+export default NoteItem;

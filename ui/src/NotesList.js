@@ -14,13 +14,14 @@ export const NotesList = () => {
         .then(response => response.json())
         .then(json => setNotes(json))
 
-  }, [notes])
+  },[])
+
 
   return (
   <Flex h="100vh" align="center" justify="center">
       <Card sx={{ width: '50%', textAlign: 'center' }}>
           <CardHeader>
-            <IconButton icon={<AddIcon/>} position="absolute" right="13"/>
+            <IconButton icon={<AddIcon/>} position="absolute" right="13" />
             <Heading size='lg'>Note List</Heading>
           </CardHeader>
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, Heading, Stack, StackDivider, IconButton } from '@chakra-ui/react'
 import { Flex } from '@chakra-ui/react'
 import {  AddIcon } from '@chakra-ui/icons'
-import { Dialog, DialogOverlay, DialogContent, DialogHeader, DialogBody, DialogFooter } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
 
 
 const AddNoteDialog = ({isOpen, onClose}) => {
@@ -14,12 +14,12 @@ const AddNoteDialog = ({isOpen, onClose}) => {
   const handleNoteBodyChange = e => { setNoteBody(e.target.value) }
 
   const handleSaveNote = () => {
-    fetch(`/api/add`, {
+    fetch(`/api/add/`, {
       method : 'POST',
       headers: {
         'Content-type' : 'application/json'
       },
-      body : JSON.stringify(noteBody)
+      body : JSON.stringify({'body': noteBody})
     })
       .then(response => response.json())
       .then(json => console.log(json))
@@ -30,18 +30,20 @@ const AddNoteDialog = ({isOpen, onClose}) => {
 
   return (
       <>
-        <Dialog isOpen={isOpen} onClose={onClose}>
-          <DialogOverlay />
-          <DialogContent>
-            <DialogHeader>Add a new note</DialogHeader>
-            <DialogBody>
-              <textarea value={noteBody} onChange={handleNoteBodyChange} />
-            </DialogBody>
-            <DialogFooter>
-              <button onClick={handleSaveNote}>Save</button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Add Note</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <textarea name='noteBody' value={noteBody} onChange={handleNoteBodyChange} />
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={onClose}>Cancel</Button>
+              <Button colorScheme="blue" onClick={handleSaveNote}>Submit</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </>
   )
 

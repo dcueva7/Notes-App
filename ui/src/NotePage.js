@@ -5,7 +5,7 @@ import { useState, useEffect} from 'react'
 
 import { Card, CardHeader, CardBody, Heading, Textarea, IconButton } from '@chakra-ui/react'
 import { Flex } from '@chakra-ui/react'
-import { ArrowBackIcon } from '@chakra-ui/icons'
+import { ArrowBackIcon, DeleteIcon } from '@chakra-ui/icons'
 
 export const NotePage = (props ) => {
 
@@ -50,6 +50,12 @@ export const NotePage = (props ) => {
 
                 <Heading size='lg'>Note</Heading>
                 <div style={{ width: '24px' }}></div>
+
+                <IconButton 
+                icon={<DeleteIcon color='red' />}
+                aria-label='black'
+                />
+
               </Flex>
             </CardHeader>
             <CardBody>

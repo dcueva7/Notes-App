@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Center, Text, Container, Card, Box } from '@chakra-ui/react'
 
 
+
 export const NoteItem = ( {note} ) => {
   return (
 

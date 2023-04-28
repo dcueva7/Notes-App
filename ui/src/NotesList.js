@@ -7,7 +7,7 @@ import {  AddIcon } from '@chakra-ui/icons'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
 
 
-const AddNoteDialog = ({isOpen, onClose}) => {
+const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
 
   const [noteBody, setNoteBody ] = useState('')
 
@@ -22,8 +22,11 @@ const AddNoteDialog = ({isOpen, onClose}) => {
       body : JSON.stringify({'body': noteBody})
     })
       .then(response => response.json())
-      .then(json => console.log(json))
+      .then(json => {
+        console.log(json)
+        onNoteAdded(json)})
 
+    setNoteBody('')
     onClose();
   }
   
@@ -39,7 +42,10 @@ const AddNoteDialog = ({isOpen, onClose}) => {
               <textarea name='noteBody' value={noteBody} onChange={handleNoteBodyChange} />
             </ModalBody>
             <ModalFooter>
-              <Button onClick={onClose}>Cancel</Button>
+              <Button onClick={() => {
+                setNoteBody('');
+                onClose()
+              }}>Cancel</Button>
               <Button colorScheme="blue" onClick={handleSaveNote}>Submit</Button>
             </ModalFooter>
           </ModalContent>
@@ -62,18 +68,25 @@ const NotesList = () => {
   },[])
 
   const openDialog = () => setDialogOpen(true)
-  const closeDialog = () => setDialogOpen(false)
+
+  const closeDialog = () => {
+    setDialogOpen(false)
+    
+  }
+  const handleNoteAdded = (newNote) => {
+    setNotes([...notes, newNote])
+  }
 
 
   return (
-  <Flex h="100vh" align="center" justify="center">
-      <Card sx={{ width: '50%', textAlign: 'center' }}>
+  <Flex h="100vh" align="center" justify="center" >
+      <Card sx={{ width: '50%', textAlign: 'center' }} overflow={true}>
           <CardHeader>
             <IconButton icon={<AddIcon/>} position="absolute" right="13" onClick={openDialog}/>
             <Heading size='lg'>Note List</Heading>
           </CardHeader>
 
-          <CardBody>
+          <CardBody maxH="80vh" overflowY="auto">
               <Stack divider={<StackDivider />} spacing='4'>
                 {notes.map((item) => {
                   return(
@@ -83,7 +96,7 @@ const NotesList = () => {
               </Stack>
           </CardBody> 
       </Card>
-      <AddNoteDialog isOpen={dialogOpen} onClose={closeDialog} />
+      <AddNoteDialog isOpen={dialogOpen} onClose={closeDialog} onNoteAdded={handleNoteAdded} />
 
     </Flex>
   )

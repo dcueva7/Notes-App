@@ -38,6 +38,16 @@ export const NotePage = (props ) => {
 
     }
 
+    const deleteNote = () => {
+      fetch(`/api/delete/${params.id}`, {
+        method: 'DELETE'
+      })
+        .then(response => response.json())
+        .then(json => console.log(json))
+
+      nav('/')
+    }
+
     return (
       <Flex h="100vh" align="center" justify="center">
         <Card sx={{ width: '60%', textAlign: 'center', minHeight: '400px' }}>
@@ -54,6 +64,7 @@ export const NotePage = (props ) => {
                 <IconButton 
                 icon={<DeleteIcon color='red' />}
                 aria-label='black'
+                onClick={deleteNote}
                 />
 
               </Flex>

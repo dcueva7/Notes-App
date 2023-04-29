@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, Heading, Stack, StackDivider, IconButton } from '@chakra-ui/react'
 import { Flex, Input } from '@chakra-ui/react'
 import {  AddIcon } from '@chakra-ui/icons'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import './animation-styles.css'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
 
 import ReactQuill from 'react-quill'
@@ -93,17 +95,20 @@ const NotesList = () => {
                 padding={4}
                 placeholder='Search notes here...'
               />
-              <Stack divider={<StackDivider />} spacing='4'>
+              <TransitionGroup component={Stack} divider={<StackDivider />} spacing='4'>
                 {notes
                   .filter((note) => note.body.toLowerCase().includes(searchQuery.toLowerCase()))
                   .map((item) => {
                     return(
-                      <NoteItem key={item.id} note={item} />
+                      <CSSTransition key={item.id} timeout={500} classNames="note">
+                        <NoteItem note={item} />
+                      </CSSTransition>
                     )
 
                   })
                 }
-              </Stack>
+              </TransitionGroup>
+              
           </CardBody> 
       </Card>
       <AddNoteDialog isOpen={dialogOpen} onClose={closeDialog} onNoteAdded={handleNoteAdded} />

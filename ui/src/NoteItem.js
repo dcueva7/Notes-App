@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Center, Text, Container, Card, Box } from '@chakra-ui/react'
+import { Center, Container, Card, Box } from '@chakra-ui/react'
 
 
 
@@ -13,7 +13,9 @@ export const NoteItem = ( {note} ) => {
         <Card sx={{ width: '100%', textAlign: 'center' }}>
           <Container>
             <Box padding='4'>
-              <Text color={'black'}>{note.body}</Text>
+              <div 
+                dangerouslySetInnerHTML={{__html : note.body}}
+                style={{color : 'black'}} />
             </Box>
           </Container>
         </Card>

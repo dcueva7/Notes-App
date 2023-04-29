@@ -2,7 +2,7 @@ import React from 'react'
 import NoteItem from './NoteItem'
 import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, Heading, Stack, StackDivider, IconButton } from '@chakra-ui/react'
-import { Flex } from '@chakra-ui/react'
+import { Flex, Input } from '@chakra-ui/react'
 import {  AddIcon } from '@chakra-ui/icons'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
 
@@ -57,7 +57,8 @@ const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
 const NotesList = () => {
 
   const [notes, setNotes] = useState([])
-  const [dialogOpen, setDialogOpen] = useState(false)  
+  const [dialogOpen, setDialogOpen] = useState(false) 
+  const [searchQuery, setSearchQuery] = useState('') 
 
   useEffect(() => {
     fetch('/api/notes/')
@@ -86,12 +87,22 @@ const NotesList = () => {
           </CardHeader>
 
           <CardBody maxH="80vh" overflowY="auto">
+              <Input 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                padding={4}
+                placeholder='Search notes here...'
+              />
               <Stack divider={<StackDivider />} spacing='4'>
-                {notes.map((item) => {
-                  return(
-                    <NoteItem key={item.id} note={item} />
-                  )
-                })}
+                {notes
+                  .filter((note) => note.body.toLowerCase().includes(searchQuery.toLowerCase()))
+                  .map((item) => {
+                    return(
+                      <NoteItem key={item.id} note={item} />
+                    )
+
+                  })
+                }
               </Stack>
           </CardBody> 
       </Card>

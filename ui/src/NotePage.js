@@ -7,6 +7,8 @@ import { Card, CardHeader, CardBody, Heading, Textarea, IconButton } from '@chak
 import { Flex } from '@chakra-ui/react'
 import { ArrowBackIcon, DeleteIcon } from '@chakra-ui/icons'
 
+import ReactQuill from 'react-quill'
+
 export const NotePage = (props ) => {
 
     const nav = useNavigate();
@@ -70,12 +72,10 @@ export const NotePage = (props ) => {
               </Flex>
             </CardHeader>
             <CardBody>
-                    <Textarea 
-                    defaultValue={note.body} 
-                    onChange={e => setNote({...note, 'body': e.target.value})} 
-                    height='auto'
-                    maxHeight="200px"
-                    sx={{ width: '100%', maxWidth: 'none', whiteSpace: 'pre-wrap' }} />
+                    <ReactQuill 
+                      value={note.body} 
+                      onChange={content => setNote({...note, 'body': content})} 
+                      style={{height : "200px"}} />
             </CardBody>
         </Card>
     </Flex>

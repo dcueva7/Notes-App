@@ -6,12 +6,11 @@ import { Flex } from '@chakra-ui/react'
 import {  AddIcon } from '@chakra-ui/icons'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
 
+import ReactQuill from 'react-quill'
 
 const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
 
   const [noteBody, setNoteBody ] = useState('')
-
-  const handleNoteBodyChange = e => { setNoteBody(e.target.value) }
 
   const handleSaveNote = () => {
     fetch(`/api/add/`, {
@@ -39,7 +38,7 @@ const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
             <ModalHeader>Add Note</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <textarea name='noteBody' value={noteBody} onChange={handleNoteBodyChange} />
+              <ReactQuill value={noteBody} onChange={content => setNoteBody(content)} />
             </ModalBody>
             <ModalFooter>
               <Button onClick={() => {
@@ -73,10 +72,10 @@ const NotesList = () => {
     setDialogOpen(false)
     
   }
+  
   const handleNoteAdded = (newNote) => {
     setNotes([...notes, newNote])
   }
-
 
   return (
   <Flex h="100vh" align="center" justify="center" >

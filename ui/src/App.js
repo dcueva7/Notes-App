@@ -12,6 +12,8 @@ import {
 
 import { ChakraProvider } from '@chakra-ui/react'
 
+import 'react-quill/dist/quill.snow.css';
+
 function App() {
 
 

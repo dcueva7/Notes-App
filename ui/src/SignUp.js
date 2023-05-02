@@ -5,51 +5,36 @@ import {
     FormControl,
     FormLabel,
     Heading,
-    HStack,
     Input,
     Stack,
-    Text,
   } from '@chakra-ui/react'
 
-import Cookies from 'js-cookie'
-
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-  
-  const SignIn = () => {
+import { useNavigate } from 'react-router-dom';
+
+const SignUp = () => {
     const nav = useNavigate();
     const [ username, setUsername ] = useState('')
+    const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
-
-    const usernameChange = (e) => {
-        setUsername(e.target.value)
-    }
-
-    const passwordChange = (e) => {
-        setPassword(e.target.value)
-    }
 
     const handleClick = (e) => {
         e.preventDefault()
-
-        fetch('/auth/token/login', {
+        
+        fetch('/auth/users/', {
             method : 'POST',
-            headers : {
+            headers: {
                 'Content-type' : 'application/json'
             },
-            body : JSON.stringify({ username : username, password : password})
+            body : JSON.stringify({email : email, username : username, password : password})
             
-        })
-            .then(response => response.json())
-            .then(json => {
-                Cookies.set("authToken", json.auth_token, { expires: 7 });
-                console.log("Token set in cookie", json);
-                nav('/');
-            })
-        
-        
-    }
+        }).then(response => {
+            response.json()
+        }).then(json => console.log(json))
 
+        nav('/')
+
+    }
 
     return (
         <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
@@ -58,15 +43,7 @@ import { Link, useNavigate } from 'react-router-dom'
                     <Stack spacing="6">
 
                     <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
-                        <Heading size={{ base: 'xs', md: 'sm' }}>Log in to your account</Heading>
-                        <HStack spacing="1" justify="center">
-                        <Text color="muted">Don't have an account?</Text>
-                        <Link to='/sign_up'>
-                            <Button variant="link" colorScheme="blue">
-                                Sign up
-                            </Button>
-                        </Link>
-                        </HStack>
+                        <Heading size={{ base: 'xs', md: 'sm' }}>Please Create An Account Here</Heading>
                     </Stack>
                     </Stack>
                     <Box
@@ -79,24 +56,24 @@ import { Link, useNavigate } from 'react-router-dom'
                     <Stack spacing="6">
                         <Stack spacing="5">
                         <FormControl>
+                            <FormLabel htmlFor="email">Email</FormLabel>
+                            <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)}/>
+                        </FormControl>
+
+                        <FormControl>
                             <FormLabel htmlFor="username">Username</FormLabel>
-                            <Input id="username" type="text" value={username} onChange={usernameChange}/>
+                            <Input id="username" type="text" value={username} onChange={e => setUsername(e.target.value)} />
                         </FormControl>
 
                         <FormControl>
                             <FormLabel htmlFor="password">Password</FormLabel>
-                            <Input id="password" type="password" value={password} onChange={passwordChange} />
+                            <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
                         </FormControl>
                         
                         </Stack>
-                        <HStack justify="space-between">
-                        
-                        <Button variant="link" colorScheme="blue" size="sm">
-                            Forgot password?
-                        </Button>
-                        </HStack>
+
                         <Stack spacing="6">
-                        <Button variant="primary" type="submit">Sign in</Button>
+                        <Button variant="primary" type="submit">Sign Up</Button>
                         
                         </Stack>
                     </Stack>
@@ -105,6 +82,7 @@ import { Link, useNavigate } from 'react-router-dom'
             </form>
         </Container>
     )
+
 }
 
-export default SignIn;
+export default SignUp

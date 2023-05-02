@@ -9,19 +9,23 @@ import './animation-styles.css'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
 
 import ReactQuill from 'react-quill'
+import Cookies from 'js-cookie'
 
 const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
 
   const [noteBody, setNoteBody ] = useState('')
 
   const handleSaveNote = () => {
+    const authToken = Cookies.get("authToken")
+    console.log("Token from cookie:", authToken);
+
     fetch(`/api/add/`, {
       method : 'POST',
       headers: {
-        'Content-type' : 'application/json'
+        'Content-type' : 'application/json',
+        'Authorization': `Bearer ${authToken}`,
       },
       body : JSON.stringify({'body': noteBody}),
-      credentials : "include",
     })
       .then(response => response.json())
       .then(json => {
@@ -63,12 +67,20 @@ const NotesList = () => {
   const [dialogOpen, setDialogOpen] = useState(false) 
   const [searchQuery, setSearchQuery] = useState('') 
 
-  useEffect(() => {
-    fetch('/api/notes/', {  credentials : "include" })
-        .then(response => response.json())
-        .then(json => setNotes(json))
+  
 
-  },[])
+  useEffect(() => {
+    const authToken = Cookies.get("authToken");
+
+    fetch('/api/notes', {
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': `Token ${authToken}`,
+      },
+    })
+      .then(response => response.json())
+      .then(json => setNotes(json))
+  }, [])
 
   const openDialog = () => setDialogOpen(true)
 
@@ -98,16 +110,17 @@ const NotesList = () => {
               />
               <TransitionGroup component={Stack} divider={<StackDivider />} spacing='4'>
                 {notes
-                  .filter((note) => note.body.toLowerCase().includes(searchQuery.toLowerCase()))
-                  .map((item) => {
-                    return(
-                      <CSSTransition key={item.id} timeout={500} classNames="note">
-                        <NoteItem note={item} />
-                      </CSSTransition>
-                    )
+                    .filter((note) => note.body.toLowerCase().includes(searchQuery.toLowerCase()))
+                    .map((item) => {
+                      return(
+                        <CSSTransition key={item.id} timeout={500} classNames="note">
+                          <NoteItem note={item} />
+                        </CSSTransition>
+                      )
 
-                  })
-                }
+                    })
+                  
+              } 
               </TransitionGroup>
               
           </CardBody> 

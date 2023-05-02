@@ -17,7 +17,7 @@ export const NotePage = (props ) => {
     const [ note, setNote ] = useState("")
 
     useEffect(() =>{
-        fetch(`/api/notes/${params.id}`)
+        fetch(`/api/notes/${params.id}`, {  credentials : "include" } )
             .then(response => response.json())
             .then(json => setNote(json))
         
@@ -30,7 +30,8 @@ export const NotePage = (props ) => {
         headers: {
           'Content-type' : 'application/json'
         },
-        body : JSON.stringify({'body' : note.body})
+        body : JSON.stringify({'body' : note.body}),
+        credentials : "include",
         
       })
         .then(response => response.json())
@@ -42,7 +43,8 @@ export const NotePage = (props ) => {
 
     const deleteNote = () => {
       fetch(`/api/delete/${params.id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials : "include" 
       })
         .then(response => response.json())
         .then(json => console.log(json))

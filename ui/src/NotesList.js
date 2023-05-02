@@ -20,7 +20,8 @@ const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
       headers: {
         'Content-type' : 'application/json'
       },
-      body : JSON.stringify({'body': noteBody})
+      body : JSON.stringify({'body': noteBody}),
+      credentials : "include",
     })
       .then(response => response.json())
       .then(json => {
@@ -63,7 +64,7 @@ const NotesList = () => {
   const [searchQuery, setSearchQuery] = useState('') 
 
   useEffect(() => {
-    fetch('/api/notes/')
+    fetch('/api/notes/', {  credentials : "include" })
         .then(response => response.json())
         .then(json => setNotes(json))
 

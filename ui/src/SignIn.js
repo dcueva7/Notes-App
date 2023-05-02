@@ -11,6 +11,8 @@ import {
     Text,
   } from '@chakra-ui/react'
 
+  import Cookies from 'js-cookie'
+
   import { useState } from 'react'
   
   const SignIn = () => {
@@ -38,7 +40,9 @@ import {
             
         })
             .then(response => response.json())
-            .then(json => console.log(json))
+            .then(json => {
+                Cookies.set("authToken", json.access_token, { expires: 7 })
+            })
     }
 
 

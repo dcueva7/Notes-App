@@ -2,6 +2,7 @@
 import './App.css';
 import NotesList from './NotesList'
 import NotePage from './NotePage';
+import SignIn from './SignIn';
 
 import {
   BrowserRouter as Router,
@@ -23,6 +24,7 @@ function App() {
         <Routes>
             <Route path="/" exact element={<NotesList />} />
             <Route path="note/:id" element={<NotePage />} />
+            <Route path="sign_in" element={<SignIn />} />
         </Routes>
       </Router>
       </ChakraProvider>

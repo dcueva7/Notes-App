@@ -3,7 +3,7 @@ import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect} from 'react'
 
-import { Card, CardHeader, CardBody, Heading, Textarea, IconButton } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, Heading, IconButton } from '@chakra-ui/react'
 import { Flex } from '@chakra-ui/react'
 import { ArrowBackIcon, DeleteIcon } from '@chakra-ui/icons'
 

@@ -43,7 +43,6 @@ import { Link, useNavigate } from 'react-router-dom'
             .then(response => response.json())
             .then(json => {
                 Cookies.set("authToken", json.auth_token, { expires: 7 });
-                console.log("Token set in cookie", json);
                 nav('/');
             })
         

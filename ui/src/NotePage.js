@@ -8,6 +8,7 @@ import { Flex } from '@chakra-ui/react'
 import { ArrowBackIcon, DeleteIcon } from '@chakra-ui/icons'
 
 import ReactQuill from 'react-quill'
+import Cookies from 'js-cookie'
 
 export const NotePage = (props ) => {
 
@@ -17,7 +18,13 @@ export const NotePage = (props ) => {
     const [ note, setNote ] = useState("")
 
     useEffect(() =>{
-        fetch(`/api/notes/${params.id}`, {  credentials : "include" } )
+        const authToken = Cookies.get("authToken")
+
+        fetch(`/api/notes/${params.id}`, {  
+          headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Token ${authToken}`,
+          }, })
             .then(response => response.json())
             .then(json => setNote(json))
         
@@ -25,13 +32,15 @@ export const NotePage = (props ) => {
     )
 
     const updateNote = () => {
+      const authToken = Cookies.get("authToken")
+
       fetch(`/api/update/${params.id}`, {
         method: 'PUT',
         headers: {
-          'Content-type' : 'application/json'
+          'Content-type': 'application/json',
+          'Authorization': `Token ${authToken}`,
         },
         body : JSON.stringify({'body' : note.body}),
-        credentials : "include",
         
       })
         .then(response => response.json())
@@ -42,14 +51,21 @@ export const NotePage = (props ) => {
     }
 
     const deleteNote = () => {
+      const authToken = Cookies.get("authToken")
       fetch(`/api/delete/${params.id}`, {
         method: 'DELETE',
-        credentials : "include" 
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': `Token ${authToken}`,
+        }, 
       })
         .then(response => response.json())
-        .then(json => console.log(json))
+        .then(json => {
+          console.log(json);
+          nav('/');
+        })
 
-      nav('/')
+      
     }
 
     return (

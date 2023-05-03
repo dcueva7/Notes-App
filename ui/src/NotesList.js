@@ -17,13 +17,12 @@ const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
 
   const handleSaveNote = () => {
     const authToken = Cookies.get("authToken")
-    console.log("Token from cookie:", authToken);
 
     fetch(`/api/add/`, {
       method : 'POST',
       headers: {
         'Content-type' : 'application/json',
-        'Authorization': `Bearer ${authToken}`,
+        'Authorization': `Token ${authToken}`,
       },
       body : JSON.stringify({'body': noteBody}),
     })

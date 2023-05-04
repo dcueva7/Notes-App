@@ -9,6 +9,8 @@ import {
     Input,
     Stack,
     Text,
+    Alert,
+    AlertIcon,
   } from '@chakra-ui/react'
 
 import Cookies from 'js-cookie'
@@ -20,7 +22,7 @@ import { Link, useNavigate } from 'react-router-dom'
     const nav = useNavigate();
     const [ username, setUsername ] = useState('')
     const [ password, setPassword ] = useState('')
-
+    const [ error, setError ] = useState('')
     const usernameChange = (e) => {
         setUsername(e.target.value)
     }
@@ -40,11 +42,17 @@ import { Link, useNavigate } from 'react-router-dom'
             body : JSON.stringify({ username : username, password : password})
             
         })
-            .then(response => response.json())
+            .then(response => {
+                if(!response.ok){
+                    setError("Invalid Credentials!")
+                    throw new Error("Invalid Credentials!");
+                }
+                 return response.json()
+            })
             .then(json => {
                 Cookies.set("authToken", json.auth_token, { expires: 7 });
                 nav('/');
-            })
+            }).catch(error => console.log(error.message))
         
         
     }
@@ -54,6 +62,11 @@ import { Link, useNavigate } from 'react-router-dom'
         <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
             <form onSubmit={handleClick}>
                 <Stack spacing="8">
+                {error && 
+                    <Alert status="error">
+                        <AlertIcon />
+                            {error}
+                    </Alert>}
                     <Stack spacing="6">
 
                     <Stack spacing={{ base: '2', md: '3' }} textAlign="center">

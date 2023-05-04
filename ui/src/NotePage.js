@@ -62,9 +62,10 @@ export const NotePage = (props ) => {
         .then(response => response.json())
         .then(json => {
           console.log(json);
-          nav('/');
+          
         })
 
+        nav('/')
       
     }
 

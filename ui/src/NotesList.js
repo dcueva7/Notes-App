@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom'
 import ReactQuill from 'react-quill'
 import Cookies from 'js-cookie'
 
+import useAuth from './UseAuth'
+
 const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
 
   
@@ -62,6 +64,8 @@ const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
 }
 
 const NotesList = () => {
+
+  useAuth();
 
   const [notes, setNotes] = useState([])
   const [dialogOpen, setDialogOpen] = useState(false) 

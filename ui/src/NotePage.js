@@ -3,7 +3,7 @@ import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect} from 'react'
 
-import { Card, CardHeader, CardBody, Heading, IconButton } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, Heading, IconButton, Button } from '@chakra-ui/react'
 import { Flex } from '@chakra-ui/react'
 import { ArrowBackIcon, DeleteIcon } from '@chakra-ui/icons'
 
@@ -70,34 +70,43 @@ export const NotePage = (props ) => {
     }
 
     return (
-      <Flex h="100vh" align="center" justify="center">
-        <Card sx={{ width: '60%', textAlign: 'center', minHeight: '400px' }}>
-            <CardHeader textAlign='center'>
-              <Flex justifyContent="space-between" alignItems="center">
-                <IconButton 
-                icon={<ArrowBackIcon />} 
-                aria-label="Back" 
-                onClick={updateNote} />
+      <>
+        <Flex justifyContent="flex-end" px={4} py={2}>
+          <Button colorScheme='red' onClick={() => {
+            Cookies.remove("authToken")
+            nav('/sign_in')
+          }}>Logout</Button>
 
-                <Heading size='lg'>Note</Heading>
-                <div style={{ width: '24px' }}></div>
+        </Flex>
+        <Flex h="100vh" align="center" justify="center">
+          <Card sx={{ width: '60%', textAlign: 'center', minHeight: '400px' }}>
+              <CardHeader textAlign='center'>
+                <Flex justifyContent="space-between" alignItems="center">
+                  <IconButton 
+                  icon={<ArrowBackIcon />} 
+                  aria-label="Back" 
+                  onClick={updateNote} />
 
-                <IconButton 
-                icon={<DeleteIcon color='red' />}
-                aria-label='black'
-                onClick={deleteNote}
-                />
+                  <Heading size='lg'>Note</Heading>
+                  <div style={{ width: '24px' }}></div>
 
-              </Flex>
-            </CardHeader>
-            <CardBody>
-                    <ReactQuill 
-                      value={note.body} 
-                      onChange={content => setNote({...note, 'body': content})} 
-                      style={{height : "200px"}} />
-            </CardBody>
-        </Card>
-    </Flex>
+                  <IconButton 
+                  icon={<DeleteIcon color='red' />}
+                  aria-label='black'
+                  onClick={deleteNote}
+                  />
+
+                </Flex>
+              </CardHeader>
+              <CardBody>
+                      <ReactQuill 
+                        value={note.body} 
+                        onChange={content => setNote({...note, 'body': content})} 
+                        style={{height : "200px"}} />
+              </CardBody>
+          </Card>
+      </Flex>
+    </>
         
     )
 }

@@ -7,10 +7,12 @@ import {
     Heading,
     Input,
     Stack,
+    HStack,
   } from '@chakra-ui/react'
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const SignUp = () => {
     const nav = useNavigate();
@@ -30,7 +32,10 @@ const SignUp = () => {
             
         }).then(response => {
             response.json()
-        }).then(json => console.log(json))
+        }).then(json => {
+            Cookies.set("authToken", json.auth_token, { expires : 7} )
+            console.log(json)
+        })
 
         nav('/')
 
@@ -72,10 +77,12 @@ const SignUp = () => {
                         
                         </Stack>
 
-                        <Stack spacing="6">
+                        <HStack spacing="6" justifyContent="center">
                         <Button variant="primary" type="submit">Sign Up</Button>
+
+                        <Button variant="primary" onClick={() => nav('/sign_in')}>Sign In</Button>
                         
-                        </Stack>
+                        </HStack>
                     </Stack>
                     </Box>
                 </Stack>

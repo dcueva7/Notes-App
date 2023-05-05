@@ -2,17 +2,18 @@ import React from 'react'
 import NoteItem from './NoteItem'
 import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, Heading, Stack, StackDivider, IconButton } from '@chakra-ui/react'
-import { Flex, Input } from '@chakra-ui/react'
+import { Flex, Input} from '@chakra-ui/react'
 import {  AddIcon } from '@chakra-ui/icons'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import './animation-styles.css'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
-
+import { useNavigate } from 'react-router-dom'
 import ReactQuill from 'react-quill'
 import Cookies from 'js-cookie'
 
 const AddNoteDialog = ({isOpen, onClose, onNoteAdded}) => {
 
+  
   const [noteBody, setNoteBody ] = useState('')
 
   const handleSaveNote = () => {
@@ -65,7 +66,7 @@ const NotesList = () => {
   const [notes, setNotes] = useState([])
   const [dialogOpen, setDialogOpen] = useState(false) 
   const [searchQuery, setSearchQuery] = useState('') 
-
+  const nav = useNavigate()
   
 
   useEffect(() => {
@@ -93,40 +94,50 @@ const NotesList = () => {
   }
 
   return (
-  <Flex h="100vh" align="center" justify="center" >
-      <Card sx={{ width: '50%', textAlign: 'center' }} overflow={true}>
-          <CardHeader>
-            <IconButton icon={<AddIcon/>} position="absolute" right="13" onClick={openDialog}/>
-            <Heading size='lg'>Note List</Heading>
-          </CardHeader>
+    
+    <>
+      <Flex justifyContent="flex-end" px={4} py={2}>
+        <Button colorScheme='red' onClick={() => {
+          Cookies.remove("authToken")
+          nav('/sign_in')
+        }}>Logout</Button>
 
-          <CardBody maxH="80vh" overflowY="auto">
-              <Input 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                padding={4}
-                placeholder='Search notes here...'
-              />
-              <TransitionGroup component={Stack} divider={<StackDivider />} spacing='4'>
-                {notes
-                    .filter((note) => note.body.toLowerCase().includes(searchQuery.toLowerCase()))
-                    .map((item) => {
-                      return(
-                        <CSSTransition key={item.id} timeout={500} classNames="note">
-                          <NoteItem note={item} />
-                        </CSSTransition>
-                      )
+      </Flex>
+      <Flex h="100vh" align="center" justify="center" >
+          <Card sx={{ width: '50%', textAlign: 'center' }} overflow={true}>
+              <CardHeader>
+                <IconButton icon={<AddIcon/>} position="absolute" right="13" onClick={openDialog}/>
+                <Heading size='lg'>Note List</Heading>
+              </CardHeader>
 
-                    })
+              <CardBody maxH="80vh" overflowY="auto">
+                  <Input 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    padding={4}
+                    placeholder='Search notes here...'
+                  />
+                  <TransitionGroup component={Stack} divider={<StackDivider />} spacing='4'>
+                    {notes
+                        .filter((note) => note.body.toLowerCase().includes(searchQuery.toLowerCase()))
+                        .map((item) => {
+                          return(
+                            <CSSTransition key={item.id} timeout={500} classNames="note">
+                              <NoteItem note={item} />
+                            </CSSTransition>
+                          )
+
+                        })
+                      
+                  } 
+                  </TransitionGroup>
                   
-              } 
-              </TransitionGroup>
-              
-          </CardBody> 
-      </Card>
-      <AddNoteDialog isOpen={dialogOpen} onClose={closeDialog} onNoteAdded={handleNoteAdded} />
+              </CardBody> 
+          </Card>
+          <AddNoteDialog isOpen={dialogOpen} onClose={closeDialog} onNoteAdded={handleNoteAdded} />
 
-    </Flex>
+        </Flex>
+      </>
   )
 }
 
